@@ -136,7 +136,7 @@ export default function Canvas(){
               {fields.length===0 && (
                 <div
                   className={[
-                    "rounded-2xl border border-dashed border-[rgb(var(--border))]",
+                    "rounded-2xl border-2 border-dashed border-[rgb(var(--border))]",
                     "bg-white/70 px-6 py-14 text-center backdrop-blur-sm",
                     "transition hover:border-brand-200"
                   ].join(' ')}
