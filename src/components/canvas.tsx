@@ -16,8 +16,10 @@ import { FieldRenderer } from '@/components/fields/FieldRenderer'
 
 /** Sortable card with a drag handle and elevated, glossy look */
 function SortableItem({
-  id, onSelect, selected, children
-}:{ id:string; onSelect:()=>void; selected:boolean; children:React.ReactNode }){
+  id, onSelect, selected, children, selectable = true
+}:{
+  id:string; onSelect:()=>void; selected:boolean; children:React.ReactNode; selectable?: boolean
+}){
   const { attributes, listeners, setNodeRef, transform, transition, isSorting } = useSortable({ id })
   const style: CSSProperties = {
     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
@@ -26,13 +28,12 @@ function SortableItem({
 
   return (
     <div ref={setNodeRef} style={style} className="relative">
-      {/* gradient border wrapper */}
       <div
         className={[
-          "rounded-2xl p-[1px]",
+          "group relative rounded-2xl p-[1px]",
           selected
             ? "bg-gradient-to-br from-brand-400/80 via-brand-300/50 to-brand-200/50"
-            : "bg-gradient-to-br from-transparent via-transparent to-transparent group hover:from-brand-200/40 hover:to-brand-100/30"
+            : "bg-gradient-to-br from-transparent via-transparent to-transparent hover:from-brand-200/40 hover:to-brand-100/30"
         ].join(' ')}
       >
         <div
@@ -44,11 +45,22 @@ function SortableItem({
             isSorting ? "shadow-xl" : ""
           ].join(' ')}
         >
+          {/* FULL-CARD CLICK OVERLAY (build mode only) */}
+          {selectable && (
+            <button
+              type="button"
+              aria-label="Select field"
+              onClick={onSelect}
+              className="absolute inset-0 z-10 rounded-[14px] focus:outline-none focus:ring-2 focus:ring-brand-300"
+              // no background, fully transparent; just captures the click
+            />
+          )}
+
           {/* drag handle */}
           <button
             className={[
               "absolute -left-3 top-1/2 hidden -translate-y-1/2 rounded-md",
-              "border bg-white/95 p-1.5 text-ink-500 shadow-sm",
+              "z-20 border bg-white/95 p-1.5 text-ink-500 shadow-sm",
               "group-hover:inline-flex focus:outline-none focus:ring-2 focus:ring-brand-300"
             ].join(' ')}
             aria-label="Drag to reorder"
@@ -58,7 +70,8 @@ function SortableItem({
             <GripVertical className="h-4 w-4" />
           </button>
 
-          <div onClick={onSelect} className="p-5">
+          {/* content */}
+          <div className="relative z-0 p-5">
             {children}
           </div>
         </div>
@@ -66,6 +79,7 @@ function SortableItem({
     </div>
   )
 }
+
 
 export default function Canvas(){
   const { fields, select, selectedId, mode } = useFormStore()
@@ -113,6 +127,7 @@ export default function Canvas(){
                   id={f.id}
                   selected={mode==='build' && selectedId===f.id}
                   onSelect={()=> select(mode==='build' ? f.id : undefined)}
+                  selectable={mode==='build'}
                 >
                   <FieldRenderer field={f} designMode={mode==='build'} />
                 </SortableItem>
