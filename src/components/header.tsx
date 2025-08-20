@@ -9,12 +9,12 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-[rgb(var(--border))] bg-[rgb(var(--card))]/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <div className="mx-auto flex-col md:flex-row gap-4 md:gap-2 flex max-w-6xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <span className="inline-grid h-8 w-8 place-items-center rounded-xl bg-brand-100 text-brand-700">✨</span>
           <h1 className="font-semibold">FormKit – Visual Form Builder</h1>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button className="pill" onClick={() => setMode(mode === 'build' ? 'preview' : 'build')}>
             {mode === 'build' ? (<><Eye className="h-4 w-4" /> Preview</>) 
                                : (<><EyeOff className="h-4 w-4" /> Edit</>)}

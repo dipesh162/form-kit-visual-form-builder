@@ -41,7 +41,7 @@ export default function Sidebar() {
   return (
     <aside className="w-full shrink-0 p-4 lg:w-72">
       <div className="mb-3 text-sm font-semibold text-ink-700">Component Library (drag or click)</div>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-1">
+      <div className="grid xs:grid-cols-1 sm:grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-1">
         {FIELD_TYPES.map(item => (
            <DraggablePaletteItem key={item.type} item={item} onClick={()=>add(item.type as any)} />
         ))}
