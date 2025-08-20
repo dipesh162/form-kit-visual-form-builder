@@ -1,12 +1,18 @@
 'use client'
-import { useFormStore } from '@/lib/store'
-import { FieldRenderer } from '@/components/fields/FieldRenderer'
-import { useForm, FormProvider } from 'react-hook-form'
-import { useMemo } from 'react'
+
+// React
 import type { CSSProperties } from 'react'
+import { useMemo } from 'react'
 import { useDroppable } from '@dnd-kit/core'
+import { useForm, FormProvider } from 'react-hook-form'
 import { useSortable, SortableContext, rectSwappingStrategy } from '@dnd-kit/sortable'
 import { GripVertical, MousePointer2, Layers } from 'lucide-react'
+
+// Zustand
+import { useFormStore } from '@/lib/store'
+
+// Components
+import { FieldRenderer } from '@/components/fields/FieldRenderer'
 
 /** Sortable card with a drag handle and elevated, glossy look */
 function SortableItem({
@@ -79,10 +85,9 @@ export default function Canvas(){
       ref={setNodeRef}
       className={[
         "flex-1 overflow-auto p-4 lg:p-6 rounded-xl",
-        // soft background with subtle texture + glow when dragging over
         "bg-[radial-gradient(1200px_600px_at_30%_-10%,#eef2ff_10%,transparent_55%)]",
         "bg-[length:100%_100%]",
-        isOver ? "outline outline-2 outline-dashed outline-brand-300 shadow-[0_0_0_6px_rgba(99,102,241,0.08)_inset]" : ""
+        isOver ? "outline-2 outline-dashed outline-brand-300 shadow-[0_0_0_6px_rgba(99,102,241,0.08)_inset]" : ""
       ].join(' ')}
     >
       <div className="mx-auto max-w-3xl">

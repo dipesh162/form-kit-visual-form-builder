@@ -1,17 +1,21 @@
 'use client'
+
+// React 
+import { DndContext, PointerSensor, useSensor, useSensors, DragEndEvent, DragStartEvent, DragOverEvent, closestCenter } from '@dnd-kit/core'
+
+// Components
 import Header from '@/components/header'
 import Sidebar from '@/components/sidebar'
 import Canvas from '@/components/canvas'
 import Inspector from '@/components/inspector'
+
+// Zustand
 import { useFormStore } from '@/lib/store'
-import { DndContext, PointerSensor, useSensor, useSensors, DragEndEvent, DragStartEvent, DragOverEvent, closestCenter } from '@dnd-kit/core'
 
-// import PixelOverlay from '@/components/overlay'
+export default function Builder() {
+  const { fields, reorder, insertAt, setMode } = useFormStore()
 
-export default function Builder(){
-    const { fields, reorder, insertAt, setMode } = useFormStore()
-
-    const sensors = useSensors(useSensor(PointerSensor, { activationConstraint:{ distance: 6 } }))
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }))
 
   const onDragEnd = (e: DragEndEvent) => {
     const { active, over } = e
@@ -19,7 +23,7 @@ export default function Builder(){
 
     const activeType = active.data.current?.type as string | undefined
 
-    // 1) Drag from sidebar into canvas (LIB_ITEM)
+    // 1) Drag from sidebar into canvas
     if (activeType === 'LIB_ITEM') {
       const fieldType = active.data.current?.fieldType
       // If dropped over a field, insert before that field; if over canvas, append
@@ -41,14 +45,13 @@ export default function Builder(){
   }
 
   return <div className="relative flex min-h-screen flex-col">
-    <Header/>
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-    <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 px-4 py-6 lg:flex-row">
-      <Sidebar/>
-      <Canvas/>
-      <Inspector/>
-    </div>
+    <Header />
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 px-4 py-6 lg:flex-row">
+        <Sidebar />
+        <Canvas />
+        <Inspector />
+      </div>
     </DndContext>
-    {/* <PixelOverlay/> */}
   </div>
 }

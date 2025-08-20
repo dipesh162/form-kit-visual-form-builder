@@ -1,4 +1,5 @@
 import Link from 'next/link'
+
 export default function Home(){
   return <div className="grid min-h-screen place-items-center px-6">
     <div className="card max-w-xl p-8 text-center">

@@ -1,6 +1,11 @@
 'use client'
-import { useFormStore } from '@/lib/store'
+
+// React
 import { useDraggable } from '@dnd-kit/core'
+
+// Zustand
+import { useFormStore } from '@/lib/store'
+
 
 // Define the available field types in the library
 const FIELD_TYPES = [
