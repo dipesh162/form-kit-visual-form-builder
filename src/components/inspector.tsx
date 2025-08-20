@@ -8,7 +8,7 @@ export default function Inspector() {
   // If no field is selected, show a placeholder message
   if (!field) {
     return (
-      <aside className="w-80 shrink-0 p-4 text-sm text-ink-500">
+      <aside className="w-80 shrink-0 p-4 text-md font-semibold text-ink-500">
         Select a field to edit its properties
       </aside>
     )
